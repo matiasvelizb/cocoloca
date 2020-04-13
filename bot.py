@@ -57,7 +57,7 @@ class Bot(commands.Bot):
         # Hints
         hint, name = None, ctx.author.name
         if isinstance(e, commands.CommandOnCooldown):
-            hint = f"No tan rapido {name}, Intenta de nuevo en {e.retry_after:.1f} s."
+            hint = f"No tan rapido {name}, Intenta de nuevo en {e.retry_after:.1f} segundos."
         elif isinstance(e, commands.MissingPermissions):
             hint = f"No tienes permisos para usar este comando {name}."
         elif isinstance(e, commands.BadArgument):

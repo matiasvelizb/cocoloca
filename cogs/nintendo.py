@@ -19,7 +19,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
                 return BeautifulSoup(data, "lxml") if r.status == 200 else None
 
     @commands.bot_has_permissions(manage_messages=True)
-    @commands.cooldown(rate=1, per=3, type=commands.BucketType.user)
+    @commands.cooldown(rate=1, per=7, type=commands.BucketType.user)
     @commands.command(aliases=["a", "char", "vil", "villager", "wiki"])
     async def aldeano(self, ctx, *, aldeano: str):
         """
@@ -45,7 +45,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
                 aux = f"{self.bot.omg} ┆ Error al obtener los datos desde la Wiki."
                 await info_msg.edit(content=aux)
 
-    @commands.command(aliases=["repup", "up", "uprep"])
+    @commands.command(aliases=["repup", "up", "uprep"], disable=True)
     async def upvote(self, ctx, member: discord.Member):
         """ Subir la reputación de algún miembro """
         if member.id == ctx.author.id:
