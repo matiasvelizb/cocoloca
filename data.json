@@ -1,0 +1,72 @@
+{
+  "flores": {
+    "patrones": [
+      {
+        "title": "Patrón Diagonal",
+        "description": "Este diseño maximiza el espacio disponible para la aparición de cruza y asegura que el hijo resultante sea de la híbrida deseada.\n\nEs un diseño bien flexible y se puede adaptar a cualquier forma, sin embargo, este diseño utiliza mucho espacio, así que para cruzas donde ambos padres sean iguales genéticamente, considera el patrón 3-2-3 en cambio.\n\nOjo que la auto clonación es posible en New Horizons, por lo que es posible que una pequeña fracción de los hijos sean clones de alguno de los padres, especialmente en las orillas.\n",
+        "image_url": "https://i.imgur.com/H8AWsNm.png",
+        "footer": "Guía de flores - patrones de cruza (1/4)"
+      },
+      {
+        "title": "Patrón 3-2-3",
+        "description": "Este diseño maximiza la densidad de flores por área y es **ideal para la cruza de plantas genéticamente idénticas**. Puedes usar cualquiera de estas figuras de 3x3, aunque probablemente la figura con el espacio al medio es menos eficiente, ya que posee 3 espacios adyacentes menos.\n\nLos bloques de la misma cruza se pueden colocar un espacio aparte de cada uno. Si tienes una cruza diferente de la misma especie, colócalo dos espacios aparte como se observa en la figura con el bloque blanco, para que puedas saber de qué bloque nacen las plantas nuevas.\n\n**Lo importante es que las flores tengan dos espacios disponibles, incluyendo diagonales.**",
+        "image_url": "https://i.imgur.com/669k0n5.png",
+        "footer": "Guía de flores - patrones de cruza  (2/4)"
+      },
+      {
+        "title": "Patron 7x7 con Bloqueos",
+        "description": "Este diseño esta **optimizado para cruzas donde la cruza deseada tiene el mismo color que uno de los dos padres**.\n\nLos cuadrados en negro están bloqueando la cruza de plantas, se puede utilizar cercas, muebles o un camino de piedra o ladrillo.\nEsto se realiza para evitar que las flores se auto dupliquen arruinando futuras cruzas.\n\nEn la figura, se desean obtener flores amarillas híbridas, y con esta distribución cualquier flor amarilla que aparezca alrededor de los cuadrados de 3x3 o en el espacio intermedio, es en un 100% una flor híbrida de la cruza entre la flor roja y amarilla.\n",
+        "image_url": "https://i.imgur.com/0dZaOar.png",
+        "footer": "Guía de flores - patrones de cruza  (3/4)"
+      },
+      {
+        "title": "Alternativas 7x7",
+        "description": "En caso de encontrar la configuración de 7x7 muy grande es posible utilizar otro tipo de configuraciones, como es un conjunto de 3x3 o un diseño en 5x5.\n\nSin embargo, es importante notar que estas configuraciones tienen un 20% menos de rendimiento.\n_rendimiento = cantidad de flores/cantidad de espacios_\n\nPongo este caso porque encuentro importante notar que para el caso de 5x5, el espacio intermedio no necesariamente asegura en un 100% una flor híbrida, ya que existe la posibilidad una auto duplicación de las flores, arruinando futuras cruzas.\n",
+        "image_url": "https://i.imgur.com/cLGhBey.png",
+        "footer": "Guía de flores - patrones de cruza  (4/4)"
+      }
+    ],
+    "cruza": [
+      {
+        "title": "Lillies (Lirios)",
+        "image_url": "https://i.imgur.com/G6h4tWE.png",
+        "footer": "Cruza de flores (1/8)"
+      },
+      {
+        "title": "Cosmos (Cosmos)",
+        "image_url": "https://i.imgur.com/XRANKRj.png",
+        "footer": "Cruza de flores (2/8)"
+      },
+      {
+        "title": "Mums (Crisantemo)",
+        "image_url": "https://i.imgur.com/FVNDfzg.png",
+        "footer": "Cruza de flores (3/8)"
+      },
+      {
+        "title": "Tulips (Tulipanes)",
+        "image_url": "https://i.imgur.com/EjEkctc.png",
+        "footer": "Cruza de flores (4/8)"
+      },
+      {
+        "title": "Hyacinth (Jacintos)",
+        "image_url": "https://i.imgur.com/lUtRYOx.png",
+        "footer": "Cruza de flores (5/8)"
+      },
+      {
+        "title": "Windflowers (Anémonas)",
+        "image_url": "https://i.imgur.com/RfzxIsp.png",
+        "footer": "Cruza de flores (6/8)"
+      },
+      {
+        "title": "Pansies (Violas)",
+        "image_url": "https://i.imgur.com/WthMlvb.png",
+        "footer": "Cruza de flores (7/8)"
+      },
+      {
+        "title": "Roses (Rosas)",
+        "image_url": "https://i.imgur.com/1V3qeRM.png",
+        "footer": "Cruza de flores (8/8)"
+      }
+    ]
+  }
+}

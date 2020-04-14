@@ -1,4 +1,5 @@
 import asyncio
+import json
 import locale
 import os
 import sys
@@ -26,7 +27,7 @@ class Bot(commands.Bot):
         super().__init__(command_prefix=config.prefix, case_insersitive=True)
         self.db = kwargs.pop("db")
         self.allowed = kwargs.pop("allowed")
-        # Load extensions
+        # Cargar extensiones
         for extension in os.listdir("./cogs"):
             if extension.endswith(".py"):
                 cog = f"cogs.{extension[:-3]}"
@@ -38,8 +39,13 @@ class Bot(commands.Bot):
 
     async def on_ready(self):
         locale.setlocale(locale.LC_ALL, "es_CL.utf8")
+        # Emojis
         self.omg = self.get_emoji(699124939965333585)
         self.question = self.get_emoji(699124939676057661)
+        # Informacion de las guias
+        with open("data.json", encoding='utf-8') as data:
+            self.guias = json.load(data)
+        # Uptime
         if not hasattr(self, "uptime"):
             self.uptime = datetime.now()
         print(f"Ready: {self.user} ID: {self.user.id}")

@@ -24,6 +24,18 @@ def jumbo_embed(emoji: PartialEmoji) -> Embed:
     return embed
 
 
+def page_embed(title: str, description: str, image_url: str, footer: str) -> Embed:
+    embed = Embed(
+        title=title,
+        description=description,
+        colour=Colour(bot_colour),
+        timestamp=datetime.utcnow(),
+    )
+    embed.set_image(url=image_url)
+    embed.set_footer(text=footer)
+    return embed
+
+
 def simple_embed(description: str) -> Embed:
     """ Returns a text only Embed  """
     return Embed(description=description, colour=bot_colour)
