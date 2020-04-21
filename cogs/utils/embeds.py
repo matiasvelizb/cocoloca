@@ -1,8 +1,9 @@
 import random
 from datetime import datetime
 
-from bs4 import BeautifulSoup
 from discord import Colour, Embed, Member, PartialEmoji
+
+from cogs.utils.translations import personality, species
 
 bot_colour = 0x89D9BA
 
@@ -10,11 +11,6 @@ bot_colour = 0x89D9BA
 def random_colour() -> Colour:
     """ Returna un Colour aleatoreo """
     return Colour.from_hsv(random.random(), 1, 1)
-
-
-def soup_markdown(url: str, tag: str) -> str:
-    """ Returns a hyperlink markdown for a BeautifulSoup tag """
-    return f"[{tag.text}]({url}{tag.a.get('href')})" if tag.a else tag.text
 
 
 def jumbo_embed(emoji: PartialEmoji) -> Embed:
@@ -41,56 +37,43 @@ def simple_embed(description: str) -> Embed:
     return Embed(description=description, colour=bot_colour)
 
 
-def villager_embed(soup: BeautifulSoup) -> Embed:
+def villager_embed(data: dict) -> Embed:
     """ Retorns an Embed for a ACNH Villager """
-    # Data
-    nombre = soup.find("img", alt="Spanish").find_next_sibling("span")
-    name = soup.find(id="api-villager_name")
-    gender = soup.find(id="api-villager_gender").text
-    species = soup.find(id="api-villager_species")
-    personality = soup.find(id="api-villager_personality")
-    birthday = soup.find(id="api-villager_birthday")
-    table = name.find_parent("table")
-    image_url = table.a.get("href")
-    description = table.find_next_sibling("p")
-
     # Color embed
-    if personality.text == "Cranky":
+    if data["personality"] == "Cranky":
         colour = 0xFF9292
-    elif personality.text == "Jock":
+    elif data["personality"] == "Jock":
         colour = 0x6EB5FF
-    elif personality.text == "Lazy":
+    elif data["personality"] == "Lazy":
         colour = 0xF8E081
-    elif personality.text == "Normal":
+    elif data["personality"] == "Normal":
         colour = 0xBDECB6
-    elif personality.text == "Peppy":
+    elif data["personality"] == "Peppy":
         colour = 0xFFCCF9
-    elif personality.text == "Smug":
+    elif data["personality"] == "Smug":
         colour = 0x97A2FF
-    elif personality.text == "Snooty":
+    elif data["personality"] == "Snooty":
         colour = 0xD5AAFF
-    elif personality.text == "Uchi":
+    elif data["personality"] == "Sisterly":
         colour = 0xFFBD61
-    else:
-        colour = bot_colour
+
+    # Translations
+    especie = data["species"] + f" ({species[data['species']]})"
+    personalidad = data["personality"] + f" ({personality[data['personality']]})"
 
     # Embed
-    url = "https://nookipedia.com"
-    title = (
-        f"{name.text} ({nombre.text}) ♀️"
-        if gender == "Female"
-        else f"{name.text} ({nombre.text}) ♂️"
-    )
+    title = f"{data['name']} ({data['spanish']})"
+    title += " ♀️" if data["gender"] == "Female" else " ♂️"
     embed = Embed(
         title=title,
-        description=f"{description.text}[Read More]({url}/wiki/{name.text})",
+        description=f"{data['description']}[Leer más]({data['url']})",
         colour=Colour(colour),
         timestamp=datetime.utcnow(),
     )
-    embed.set_image(url=image_url)
-    embed.add_field(name="Especie", value=soup_markdown(url, species))
-    embed.add_field(name="Personalidad", value=soup_markdown(url, personality))
-    embed.add_field(name="Cumpleaños", value=soup_markdown(url, birthday))
+    embed.set_image(url=data["image_url"])
+    embed.add_field(name="Especie", value=especie)
+    embed.add_field(name="Personalidad", value=personalidad)
+    embed.add_field(name="Cumpleaños", value=data["birthday"])
     embed.set_footer(
         text="Información obtenida de Nookipedia.",
         icon_url="https://i.imgur.com/UKmjvyA.png",

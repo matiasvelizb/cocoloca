@@ -15,7 +15,7 @@ import config
 
 async def run():
     db = await asyncpg.create_pool(**config.credentials)
-    bot = Bot(db=db, allowed=config.allowed_channels)
+    bot = Bot(db=db)
     try:
         await bot.start(config.discord_token)
     except KeyboardInterrupt:
@@ -26,7 +26,6 @@ class Bot(commands.Bot):
     def __init__(self, **kwargs):
         super().__init__(command_prefix=config.prefix, case_insersitive=True)
         self.db = kwargs.pop("db")
-        self.allowed = kwargs.pop("allowed")
         # Cargar extensiones
         for extension in os.listdir("./cogs"):
             if extension.endswith(".py"):
@@ -40,11 +39,10 @@ class Bot(commands.Bot):
     async def on_ready(self):
         locale.setlocale(locale.LC_ALL, "es_CL.utf8")
         # Emojis
-        self.omg = self.get_emoji(699124939965333585)
-        self.question = self.get_emoji(699124939676057661)
-        # Informacion de las guias
-        with open("data.json", encoding='utf-8') as data:
-            self.guias = json.load(data)
+        self.think = self.get_emoji(701962889828761671)
+        # Cargar informacion de aldeanos
+        with open("villagers.json", encoding="utf-8") as data:
+            self.villagers = json.load(data)
         # Uptime
         if not hasattr(self, "uptime"):
             self.uptime = datetime.now()
@@ -54,25 +52,24 @@ class Bot(commands.Bot):
         # Ignorar bots y DMs
         if message.author.bot or not message.guild:
             return
-        # Solo aceptar comandos en los canales admitidos
-        if message.channel.id not in self.allowed:
-            return
         await self.process_commands(message)
 
     async def on_command_error(self, ctx, e):
-        # Hints
-        hint, name = None, ctx.author.name
+        # Cooldown
+        name, hint = ctx.author.name, None
         if isinstance(e, commands.CommandOnCooldown):
-            hint = f"No tan rapido {name}, Intenta de nuevo en {e.retry_after:.1f} segundos."
-        elif isinstance(e, commands.MissingPermissions):
+            msg = f"No tan rapido {name}, Intenta de nuevo en {e.retry_after:.1f} segundos."
+            await ctx.send(msg, delete_after=10)
+        # Error
+        if isinstance(e, commands.MissingPermissions):
             hint = f"No tienes permisos para usar este comando {name}."
         elif isinstance(e, commands.BadArgument):
             hint = "Uno de tus parametros no es valido."
         elif isinstance(e, commands.MissingRequiredArgument):
             hint = f"Te falta un parametro obligatorio {name}."
         if hint:
-            await ctx.send(hint)
-            await ctx.send_help(ctx.command)
+            hint += f"\nPara más información usa `{ctx.prefix}help {ctx.command.name}`"
+            await ctx.send(hint, delete_after=10)
         # Traceback
         error = f"In {ctx.command.qualified_name}: {e.original.__class__.__name__}: {e.original}"
         if isinstance(e, commands.CommandInvokeError):
