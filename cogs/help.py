@@ -42,6 +42,7 @@ class HelpCommand(commands.MinimalHelpCommand):
         embed = discord.Embed(description=self.get_opening_note(), colour=bot_colour)
         embed.set_author(name=title, icon_url=bot.user.avatar_url)
         embed.set_thumbnail(url=bot.user.avatar_url_as(format="png"))
+        embed.set_footer(text="Desarrollado por Foosen#3357")
 
         def get_category(command):
             cog = command.cog

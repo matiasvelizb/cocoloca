@@ -1,5 +1,7 @@
-import discord
 import re
+
+import asyncpg
+import discord
 from discord.ext import commands
 
 url_regex = (
@@ -12,10 +14,19 @@ class Listeners(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
+    async def on_guild_join(self, guild):
+        query = """
+        INSERT INTO guilds (guild_id)
+        VALUES ($1) ON CONFLICT (guild_id) DO NOTHING;
+        """
+        await self.bot.db.execute(query, guild.id)
+        print("Joined guild:", guild, guild.id)
+
+    @commands.Cog.listener()
     async def on_message(self, message):
         if message.channel.id == 701951947644600410 and not message.author.bot:
             urls = re.findall(url_regex, message.content)
-            if len(message.attachments) == 1 or urls:
+            if len(message.attachments) >= 1 or urls:
                 pass
             else:
                 await message.delete()
