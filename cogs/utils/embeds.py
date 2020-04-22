@@ -3,7 +3,7 @@ from datetime import datetime
 
 from discord import Colour, Embed, Member, PartialEmoji
 
-from cogs.utils.translations import personality, species
+from cogs.utils.translations import personality_es, species_es
 
 bot_colour = 0x89D9BA
 
@@ -17,18 +17,6 @@ def jumbo_embed(emoji: PartialEmoji) -> Embed:
     """ Returns an embed with an emoji on it's original size """
     embed = Embed(title=str(emoji.name), url=str(emoji.url), colour=random_colour())
     embed.set_image(url=emoji.url)
-    return embed
-
-
-def page_embed(title: str, description: str, image_url: str, footer: str) -> Embed:
-    embed = Embed(
-        title=title,
-        description=description,
-        colour=Colour(bot_colour),
-        timestamp=datetime.utcnow(),
-    )
-    embed.set_image(url=image_url)
-    embed.set_footer(text=footer)
     return embed
 
 
@@ -58,8 +46,8 @@ def villager_embed(data: dict) -> Embed:
         colour = 0xFFBD61
 
     # Translations
-    especie = data["species"] + f" ({species[data['species']]})"
-    personalidad = data["personality"] + f" ({personality[data['personality']]})"
+    especie = data["species"] + f" ({species_es[data['species']]})"
+    personalidad = data["personality"] + f" ({personality_es[data['personality']]})"
 
     # Embed
     title = f"{data['name']} ({data['spanish']})"

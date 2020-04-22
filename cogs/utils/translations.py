@@ -1,4 +1,4 @@
-personality = {
+personality_es = {
     "Cranky": "Gruñon",
     "Jock": "Atlético",
     "Lazy": "Perezoso",
@@ -9,7 +9,7 @@ personality = {
     "Snooty": "Presumida",
 }
 
-species = {
+species_es = {
     "Alligator": "Cocodrilo",
     "Anteater": "Oso Hormiguero",
     "Bear": "Osos",

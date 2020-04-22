@@ -58,7 +58,10 @@ class Bot(commands.Bot):
         # Cooldown
         name, hint = ctx.author.name, None
         if isinstance(e, commands.CommandOnCooldown):
-            msg = f"No tan rapido {name}, Intenta de nuevo en {e.retry_after:.1f} segundos."
+            msg = (
+                f"No tan rapido {name}, Intenta de nuevo en {e.retry_after:.1f} segundos.\n"
+                "Si quieres ver una lista nueva, debes cerrar la lista anterior con ⏹"
+            )
             await ctx.send(msg, delete_after=10)
         # Error
         if isinstance(e, commands.MissingPermissions):

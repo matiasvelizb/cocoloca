@@ -5,7 +5,9 @@ from bs4 import BeautifulSoup
 from discord.ext import commands
 
 from cogs.utils.embeds import villager_embed
+from cogs.utils.paginator import Paginator
 from cogs.utils.queries import get_soup
+from cogs.utils.translations import personality_es, species_es
 
 urls = [
     "https://nookipedia.com/wiki/Admiral",
@@ -402,6 +404,10 @@ urls = [
 ]
 
 
+def to_title(argument):
+    return argument.title()
+
+
 def normalize(argument):
     replacements = (
         ("á", "a"),
@@ -413,6 +419,11 @@ def normalize(argument):
     for a, b in replacements:
         argument = argument.replace(a, b).replace(a.upper(), b.upper())
     return argument.title()
+
+
+def get_keys(argument: dict):
+    strings = [f"`{k}`" for k, v in argument.items()]
+    return ", ".join(strings)
 
 
 class Nintendo(commands.Cog, name="Animal Crossing"):
@@ -461,10 +472,77 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
                 err = f"{self.bot.think} | {villager.title()} no es un aldeano en ACNH."
                 await msg.edit(content=err, delete_after=7)
 
+    @commands.cooldown(rate=1, per=300, type=commands.BucketType.user)
+    @commands.command(aliases=["p", "per", "personality"])
+    async def personalidad(self, ctx, *, personalidad: to_title):
+        """
+        **Obtén un listado con todos los aldeanos de una personalidad**
+        <personalidad>: La personalidad en **ingles** a buscar.
+        """
+        # Verificar personalidad
+        if personalidad not in personality_es:
+            ctx.command.reset_cooldown(ctx)
+            content = (
+                f"{personalidad} no es una personalidad valida en inglés.\n"
+                "Por favor, elija una de las siguientes personalidades: "
+                f"{get_keys(personality_es)}"
+            )
+            await ctx.send(content, delete_after=30)
+            return
+        # Generar paginas
+        pages = []
+        filtered = [x for x in self.bot.villagers if x["personality"] == personalidad]
+        for idx, villager in enumerate(filtered, start=1):
+            embed = villager_embed(villager)
+            embed.set_footer(
+                text=f"Información obtenida de Nookipedia ({idx}/{len(filtered)})",
+                icon_url="https://i.imgur.com/UKmjvyA.png",
+            )
+            pages.append(embed)
+        # Crear paginador por 10 minutos
+        msg = f"Aldeanos de personalidad **{personalidad}** ({personality_es[personalidad]})"
+        paginator = Paginator(ctx, msg, pages)
+        await paginator.run(600)
+
+    @commands.cooldown(rate=1, per=300, type=commands.BucketType.user)
+    @commands.command(aliases=["e", "esp", "species"])
+    async def especie(self, ctx, *, especie: to_title):
+        """
+        **Obtén un listado con todos los aldeanos de una especie**
+        <especie>: La especie en **ingles** a buscar.
+        """
+        # Verificar especie
+        if especie not in species_es:
+            ctx.command.reset_cooldown(ctx)
+            content = (
+                f"{especie} no es una especie valida en inglés.\n"
+                "Por favor, elija una de las siguientes especies: "
+                f"{get_keys(species_es)}"
+            )
+            await ctx.send(content, delete_after=30)
+            return
+        # Generar paginas
+        pages = []
+        filtered = [x for x in self.bot.villagers if x["species"] == especie]
+        for idx, villager in enumerate(filtered, start=1):
+            embed = villager_embed(villager)
+            embed.set_footer(
+                text=f"Información obtenida de Nookipedia ({idx}/{len(filtered)})",
+                icon_url="https://i.imgur.com/UKmjvyA.png",
+            )
+            pages.append(embed)
+        # Crear paginador por 10 minutos
+        msg = f"Aldeanos de especie **{especie}** ({species_es[especie]})"
+        paginator = Paginator(ctx, msg, pages)
+        await paginator.run(600)
+
     @commands.is_owner()
     @commands.command()
     async def update(self, ctx):
-        """**Actualiza la base de datos de aldeanos**"""
+        """
+        **Actualiza la base de datos de aldeanos**
+        Recordar verificar consola al terminar y modificar aldeanos con asterisco.
+        """
         villagers = []
         msg = await ctx.send(f"{self.bot.think} ┆ Actualizando aldeanos...")
         # Generar listado

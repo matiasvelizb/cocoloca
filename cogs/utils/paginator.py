@@ -74,6 +74,8 @@ class Paginator:
 
     async def stop(self):
         self.ctx.bot.remove_listener(self.on_reaction_add)
+        if self.ctx.command.is_on_cooldown(self.ctx):
+            self.ctx.command.reset_cooldown(self.ctx)
         try:
             await self.message.clear_reactions()
         except discord.Forbidden:
