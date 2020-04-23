@@ -40,6 +40,7 @@ class Bot(commands.Bot):
         locale.setlocale(locale.LC_ALL, "es_CL.utf8")
         # Emojis
         self.think = self.get_emoji(702729662413013102)
+        self.omg = self.get_emoji(702729661997645834)
         # Cargar informacion de aldeanos
         with open("villagers.json", encoding="utf-8") as data:
             self.villagers = json.load(data)

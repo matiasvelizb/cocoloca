@@ -66,7 +66,7 @@ class Utilidad(commands.Cog):
     async def uptime(self, ctx):
         """**Obtén el tiempo que el bot lleva en linea**"""
         delta = str(datetime.now() - self.bot.uptime).split(".")[0]
-        description = f"Online for: **{delta}** {self.bot.emoji}"
+        description = f"Online for: **{delta}** {self.bot.omg}"
         await ctx.send(embed=simple_embed(description))
 
     @commands.is_owner()
@@ -81,7 +81,7 @@ class Utilidad(commands.Cog):
                 except Exception:
                     print(f"Failed to load extension {cog}.", file=sys.stderr)
                     traceback.print_exc()
-        description = f"{self.bot.think} {self.bot.user.name} se está reiniciando..."
+        description = f"{self.bot.omg} {self.bot.user.name} se está reiniciando..."
         await ctx.send(embed=simple_embed(description), delete_after=15)
 
 

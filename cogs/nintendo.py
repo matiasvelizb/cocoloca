@@ -471,7 +471,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
                 await msg.delete()
                 await ctx.send(embed=embed)
             else:
-                err = f"{self.bot.think} | {aldeano.title()} no es un aldeano en ACNH."
+                err = f"{self.bot.omg} | {aldeano.title()} no es un aldeano en ACNH."
                 await msg.edit(content=err, delete_after=7)
 
     @commands.cooldown(rate=1, per=3, type=commands.BucketType.user)
@@ -492,7 +492,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
                 await msg.delete()
                 await ctx.send(embed=embed)
             else:
-                err = f"{self.bot.think} | {villager.title()} no es un aldeano en ACNH."
+                err = f"{self.bot.omg} | {villager.title()} no es un aldeano en ACNH."
                 await msg.edit(content=err, delete_after=7)
 
     @commands.cooldown(rate=1, per=240, type=commands.BucketType.user)
