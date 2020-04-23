@@ -44,10 +44,14 @@ def villager_embed(data: dict) -> Embed:
         colour = 0xD5AAFF
     elif data["personality"] == "Sisterly":
         colour = 0xFFBD61
+    else:
+        colour = 0x000000
 
     # Translations
-    especie = data["species"] + f" ({species_es[data['species']]})"
-    personalidad = data["personality"] + f" ({personality_es[data['personality']]})"
+    species = data["species"] + f" ({species_es[data['species']]})"
+    personality = data["personality"] + f" ({personality_es[data['personality']]})"
+    birthday = datetime.strptime(data["birthday"], "%Y-%m-%d %H:%M:%S")
+    birthday = birthday.strftime("%#d de %B").title().replace("De", "de")
 
     # Embed
     title = f"{data['name']} ({data['spanish']})"
@@ -59,9 +63,9 @@ def villager_embed(data: dict) -> Embed:
         timestamp=datetime.utcnow(),
     )
     embed.set_image(url=data["image_url"])
-    embed.add_field(name="Especie", value=especie)
-    embed.add_field(name="Personalidad", value=personalidad)
-    embed.add_field(name="Cumpleaños", value=data["birthday"])
+    embed.add_field(name="Especie", value=species)
+    embed.add_field(name="Personalidad", value=personality)
+    embed.add_field(name="Cumpleaños", value=birthday)
     embed.set_footer(
         text="Información obtenida de Nookipedia.",
         icon_url="https://i.imgur.com/UKmjvyA.png",

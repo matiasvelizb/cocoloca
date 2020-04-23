@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import discord
 from bs4 import BeautifulSoup
@@ -421,9 +422,31 @@ def normalize(argument):
     return argument.title()
 
 
-def get_keys(argument: dict):
+def get_keys(argument):
     strings = [f"`{k}`" for k, v in argument.items()]
     return ", ".join(strings)
+
+
+def parse_date(argument):
+    months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ]
+    days = reversed(range(1, 32))
+    year = datetime.today().year
+    month = months.index(next(m for m in months if m in argument)) + 1
+    day = next(d for d in days if str(d) in argument)
+    return datetime(year, month, day)
 
 
 class Nintendo(commands.Cog, name="Animal Crossing"):
@@ -566,7 +589,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
                 data["spanish"] = spanish.text
                 data["gender"] = gender.text
                 data["species"] = species.text
-                data["birthday"] = birthday.text
+                data["birthday"] = parse_date(birthday.text)
                 data["personality"] = personality.text
                 data["image_url"] = image_url
                 data["description"] = description.text
@@ -578,7 +601,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
         # Escribir JSON
         await msg.edit(content="Guardando información...")
         with open("villagers.json", "w", encoding="utf-8") as fp:
-            json.dump(villagers, fp, ensure_ascii=False)
+            json.dump(villagers, fp, ensure_ascii=False, default=str)
         await msg.edit(content="Terminado.")
 
 
