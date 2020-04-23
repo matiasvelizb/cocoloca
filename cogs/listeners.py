@@ -8,6 +8,8 @@ url_regex = (
     "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
 )
 
+allowed = [701951947644600410, 691637385871753287, 698997211605893180]
+
 
 class Listeners(commands.Cog):
     def __init__(self, bot):
@@ -24,15 +26,15 @@ class Listeners(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.channel.id == 701951947644600410 and not message.author.bot:
+        if message.channel.id in allowed and not message.author.bot:
             urls = re.findall(url_regex, message.content)
-            if len(message.attachments) >= 1 or urls:
+            if len(message.attachments) >= 1 or urls or message.content.isdigit():
                 pass
             else:
                 await message.delete()
                 error = (
-                    "**Este canal solo admite mensajes con imagenes o links**. "
-                    "Todo lo demás será borrado automaticamente."
+                    "**Este canal solo admite mensajes de numeros, imagenes"
+                    " ó links exclusivamente.**\nTodo lo demás será borrado automaticamente."
                 )
                 await message.channel.send(error, delete_after=5)
 

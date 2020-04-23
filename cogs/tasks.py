@@ -15,11 +15,12 @@ class Tasks(commands.Cog):
     @tasks.loop(seconds=delay)
     async def status(self):
         """ Muestra cuantos miembros hay en la guild """
-        guild = self.bot.get_guild(701951865453281352)
-        members = [member for member in guild.members if not member.bot]
-        game = f"Animal Crossing con {len(members)} amigos."
-        activity = discord.Activity(type=discord.ActivityType.playing, name=game)
-        await self.bot.change_presence(activity=activity)
+        guild = self.bot.get_guild(686256893630742544)
+        if guild:
+            members = [member for member in guild.members if not member.bot]
+            game = f"Animal Crossing con {len(members)} amigos."
+            activity = discord.Activity(type=discord.ActivityType.playing, name=game)
+            await self.bot.change_presence(activity=activity)
 
     @status.before_loop
     async def before_status(self):
