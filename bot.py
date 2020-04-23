@@ -39,7 +39,7 @@ class Bot(commands.Bot):
     async def on_ready(self):
         locale.setlocale(locale.LC_ALL, "es_CL.utf8")
         # Emojis
-        self.think = self.get_emoji(701962889828761671)
+        self.think = self.get_emoji(702729662413013102)
         # Cargar informacion de aldeanos
         with open("villagers.json", encoding="utf-8") as data:
             self.villagers = json.load(data)
@@ -64,7 +64,9 @@ class Bot(commands.Bot):
             )
             await ctx.send(msg, delete_after=10)
         # Error
-        if isinstance(e, commands.MissingPermissions):
+        if isinstance(e, commands.MissingAnyRole):
+            hint = f"Disculpa {name}, este comando valido solo para nuestros Isleñes."
+        elif isinstance(e, commands.MissingPermissions):
             hint = f"No tienes permisos para usar este comando {name}."
         elif isinstance(e, commands.BadArgument):
             hint = "Uno de tus parametros no es valido."

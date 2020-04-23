@@ -472,7 +472,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
                 err = f"{self.bot.think} | {villager.title()} no es un aldeano en ACNH."
                 await msg.edit(content=err, delete_after=7)
 
-    @commands.cooldown(rate=1, per=300, type=commands.BucketType.user)
+    @commands.cooldown(rate=1, per=240, type=commands.BucketType.user)
     @commands.command(aliases=["p", "per", "personality"])
     async def personalidad(self, ctx, *, personalidad: to_title):
         """
@@ -504,7 +504,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
         paginator = Paginator(ctx, msg, pages)
         await paginator.run(600)
 
-    @commands.cooldown(rate=1, per=300, type=commands.BucketType.user)
+    @commands.cooldown(rate=1, per=240, type=commands.BucketType.user)
     @commands.command(aliases=["e", "esp", "species"])
     async def especie(self, ctx, *, especie: to_title):
         """
