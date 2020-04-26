@@ -29,8 +29,13 @@ class Paginator:
         self.ctx.bot.add_listener(self.on_reaction_add)
         for reaction in self.handlers:
             await self.message.add_reaction(reaction)
-        await asyncio.sleep(time)
-        await self.stop()
+        await self.timer(time)
+
+    async def timer(self, time: int):
+        def check(reaction, user):
+            return user == self.ctx.author and str(reaction.emoji) == "⏹"
+
+        await self.ctx.bot.wait_for("reaction_add", check=check, timeout=time)
 
     async def on_reaction_add(self, reaction, user):
         if reaction.message.id != self.message.id:
@@ -73,9 +78,9 @@ class Paginator:
         await self.update()
 
     async def stop(self):
-        self.ctx.bot.remove_listener(self.on_reaction_add)
         if self.ctx.command.is_on_cooldown(self.ctx):
             self.ctx.command.reset_cooldown(self.ctx)
+        self.ctx.bot.remove_listener(self.on_reaction_add)
         try:
             await self.message.clear_reactions()
         except discord.Forbidden:
@@ -105,8 +110,7 @@ class TextPaginator(Paginator):
         self.ctx.bot.add_listener(self.on_reaction_add)
         for reaction in self.handlers:
             await self.message.add_reaction(reaction)
-        await asyncio.sleep(time)
-        await self.stop()
+        await super().timer(time)
 
     async def update(self):
         await self.message.edit(content=self.pages[self.curr])

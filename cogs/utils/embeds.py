@@ -3,7 +3,7 @@ from datetime import datetime
 
 from discord import Colour, Embed, Member, PartialEmoji
 
-from cogs.utils.translations import personality_es, species_es
+from cogs.utils.acnh import personality_es, species_es
 
 bot_colour = 0x89D9BA
 
@@ -59,7 +59,7 @@ def villager_embed(data: dict) -> Embed:
     embed = Embed(
         title=title,
         description=f"{data['description']}[Leer más]({data['url']})",
-        colour=Colour(colour),
+        colour=colour,
         timestamp=datetime.utcnow(),
     )
     embed.set_image(url=data["image_url"])
