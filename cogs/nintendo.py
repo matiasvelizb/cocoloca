@@ -1,14 +1,15 @@
 import json
+import logging
 from datetime import datetime
 
 import discord
 from bs4 import BeautifulSoup
 from discord.ext import commands
 
+from cogs.utils.acnh import personality_es, species_es, villager_urls
 from cogs.utils.embeds import villager_embed
 from cogs.utils.paginator import Paginator
 from cogs.utils.queries import get_soup
-from cogs.utils.acnh import personality_es, species_es, villager_urls
 
 
 def to_title(argument):
@@ -188,7 +189,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
                 image_url = table.a.get("href")
                 description = table.find_next_sibling("p")
             except:
-                print(f"Error actualizando {idx} : {url}")
+                logging.error(f"Actualizando aldeano #{idx} : {url}")
             else:
                 data = {}
                 data["name"] = name.text

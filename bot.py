@@ -1,9 +1,9 @@
 import asyncio
 import json
-import locale
+import logging
 import os
-import sys
 import traceback
+import sys
 from datetime import datetime
 
 import asyncpg
@@ -14,6 +14,13 @@ import config
 
 
 async def run():
+    logging.basicConfig(
+        filename="bot.log",
+        filemode="w",
+        level=logging.INFO,
+        format="%(asctime)s:%(levelname)s:%(message)s",
+        datefmt="%d-%m-%Y %H:%M:%S",
+    )
     db = await asyncpg.create_pool(**config.credentials)
     bot = Bot(db=db)
     try:
@@ -32,12 +39,10 @@ class Bot(commands.Bot):
                 cog = f"cogs.{extension[:-3]}"
                 try:
                     self.load_extension(cog)
-                except Exception:
-                    print(f"Failed to load extension {cog}.", file=sys.stderr)
-                    traceback.print_exc()
+                except Exception as e:
+                    logging.error(e)
 
     async def on_ready(self):
-        locale.setlocale(locale.LC_ALL, "es_CL.utf8")
         # Emojis
         self.think = self.get_emoji(702729662413013102)
         self.omg = self.get_emoji(702729661997645834)
@@ -47,7 +52,8 @@ class Bot(commands.Bot):
         # Uptime
         if not hasattr(self, "uptime"):
             self.uptime = datetime.now()
-        print(f"Ready: {self.user} ID: {self.user.id}")
+        info = f"Ready: {self.user} ID: {self.user.id} Guilds: {len(self.guilds)}"
+        logging.info(info)
 
     async def on_message(self, message):
         # Ignorar bots y DMs
@@ -55,32 +61,34 @@ class Bot(commands.Bot):
             return
         await self.process_commands(message)
 
-    async def on_command_error(self, ctx, e):
-        # Cooldown
+    async def on_command_error(self, ctx, error):
         name, hint = ctx.author.name, None
-        if isinstance(e, commands.CommandOnCooldown):
-            msg = f"No tan rapido {name}, Intenta de nuevo en {e.retry_after:.1f} segundos."
-            await ctx.send(msg, delete_after=10)
-        if isinstance(e, commands.MaxConcurrencyReached):
-            msg = f"Si quieres ver una lista nueva, cierra la lista anterior con ⏹."
-            await ctx.send(msg, delete_after=10)
-        # Error
-        if isinstance(e, commands.MissingAnyRole):
+        if isinstance(error, commands.CommandOnCooldown):
+            hint = f"No tan rapido {name}, Intenta de nuevo en {error.retry_after:.1f} segundos."
+        elif isinstance(error, commands.MaxConcurrencyReached):
+            hint = f"Si quieres ver una lista nueva, cierra la lista anterior con ⏹."
+        elif isinstance(error, commands.MissingAnyRole):
             hint = f"Disculpa {name}, este comando valido solo para nuestros Isleñes."
-        elif isinstance(e, commands.MissingPermissions):
+        elif isinstance(error, commands.MissingPermissions):
             hint = f"No tienes permisos para usar este comando {name}."
-        elif isinstance(e, commands.BadArgument):
+        elif isinstance(error, commands.BadArgument):
             hint = "Uno de tus parametros no es valido."
-        elif isinstance(e, commands.MissingRequiredArgument):
+        elif isinstance(error, commands.MissingRequiredArgument):
             hint = f"Te falta un parametro obligatorio {name}."
+
         if hint:
-            hint += f"\nPara más información usa `{ctx.prefix}help {ctx.command.name}`"
             await ctx.send(hint, delete_after=10)
-        # Traceback
-        error = f"In {ctx.command.qualified_name}: {e.original.__class__.__name__}: {e.original}"
-        if isinstance(e, commands.CommandInvokeError):
-            print(error, file=sys.stderr)
-            traceback.print_tb(e.original.__traceback__)
+        else:
+            logging.error(error)
+
+        if isinstance(error, commands.CommandInvokeError):
+            text = f"In {ctx.command.qualified_name}: {error.original.__class__.__name__}: {error.original}\n"
+            etype = type(error)
+            trace = error.__traceback__
+            verbosity = 4
+            lines = traceback.format_exception(etype, error, trace, verbosity)
+            text += "".join(lines)
+            logging.error(text)
 
 
 if __name__ == "__main__":

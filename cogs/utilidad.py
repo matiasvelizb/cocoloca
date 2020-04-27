@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import traceback
@@ -78,9 +79,8 @@ class Utilidad(commands.Cog):
                 cog = f"cogs.{extension[:-3]}"
                 try:
                     self.bot.reload_extension(cog)
-                except Exception:
-                    print(f"Failed to load extension {cog}.", file=sys.stderr)
-                    traceback.print_exc()
+                except Exception as e:
+                    logging.error(e)
         description = f"{self.bot.omg} {self.bot.user.name} se está reiniciando..."
         await ctx.send(embed=simple_embed(description), delete_after=15)
 

@@ -1,3 +1,4 @@
+import logging
 import re
 
 import asyncpg
@@ -22,7 +23,7 @@ class Listeners(commands.Cog):
         VALUES ($1) ON CONFLICT (guild_id) DO NOTHING;
         """
         await self.bot.db.execute(query, guild.id)
-        print("Joined guild:", guild, guild.id)
+        logging.info(f"Joined guild: {guild.id}")
 
     @commands.Cog.listener()
     async def on_message(self, message):
