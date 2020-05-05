@@ -124,10 +124,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
         filtered = [x for x in self.bot.villagers if x["personality"] == personalidad]
         for idx, villager in enumerate(filtered, start=1):
             embed = villager_embed(villager)
-            embed.set_footer(
-                text=f"Información obtenida de Nookipedia ({idx}/{len(filtered)})",
-                icon_url="https://i.imgur.com/UKmjvyA.png",
-            )
+            embed.set_footer(text=f"Página: {idx} de {len(filtered)}")
             pages.append(embed)
         # Crear paginador por 10 minutos
         msg = f"Aldeanos de personalidad **{personalidad}** ({personality_es[personalidad]})"
@@ -156,10 +153,7 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
         filtered = [x for x in self.bot.villagers if x["species"] == especie]
         for idx, villager in enumerate(filtered, start=1):
             embed = villager_embed(villager)
-            embed.set_footer(
-                text=f"Información obtenida de Nookipedia ({idx}/{len(filtered)})",
-                icon_url="https://i.imgur.com/UKmjvyA.png",
-            )
+            embed.set_footer(text=f"Página: {idx} de {len(filtered)}")
             pages.append(embed)
         # Crear paginador por 10 minutos
         msg = f"Aldeanos de especie **{especie}** ({species_es[especie]})"

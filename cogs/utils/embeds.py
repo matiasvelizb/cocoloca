@@ -56,18 +56,14 @@ def villager_embed(data: dict) -> Embed:
     # Embed
     title = f"{data['name']} ({data['spanish']})"
     title += " ♀️" if data["gender"] == "Female" else " ♂️"
-    embed = Embed(
-        title=title,
-        description=f"{data['description']}[Leer más]({data['url']})",
-        colour=colour,
-        timestamp=datetime.utcnow(),
-    )
-    embed.set_image(url=data["image_url"])
+    embed = Embed(title=title, colour=colour, timestamp=datetime.utcnow())
+    embed.set_thumbnail(url=data["image_url"])
     embed.add_field(name="Especie", value=species)
     embed.add_field(name="Personalidad", value=personality)
     embed.add_field(name="Cumpleaños", value=birthday)
-    embed.set_footer(
-        text="Información obtenida de Nookipedia.",
+    embed.set_author(
+        name="Ver en Nookipedia",
         icon_url="https://i.imgur.com/UKmjvyA.png",
+        url=data["url"],
     )
     return embed

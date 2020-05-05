@@ -1,9 +1,10 @@
 import asyncio
 import json
+import locale
 import logging
 import os
-import traceback
 import sys
+import traceback
 from datetime import datetime
 
 import asyncpg
@@ -14,6 +15,7 @@ import config
 
 
 async def run():
+    locale.setlocale(locale.LC_TIME, "es_CL")
     logging.basicConfig(
         filename="bot.log",
         filemode="w",

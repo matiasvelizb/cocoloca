@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Coco",
+      "name": "Cocoloca",
       "type": "python",
       "request": "launch",
       "program": "C:\\Users\\Matias\\Proyectos\\Discord\\Coco\\bot.py",
