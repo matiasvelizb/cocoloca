@@ -8,7 +8,7 @@
       "name": "Cocoloca",
       "type": "python",
       "request": "launch",
-      "program": "C:\\Users\\Matias\\Proyectos\\Discord\\Coco\\bot.py",
+      "program": "C:\\Users\\Matias\\Proyectos\\Discord\\cocoloca\\bot.py",
       "console": "integratedTerminal"
     }
   ]
