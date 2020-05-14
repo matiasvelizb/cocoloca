@@ -160,6 +160,29 @@ class Nintendo(commands.Cog, name="Animal Crossing"):
         paginator = Paginator(ctx, msg, pages)
         await paginator.run(600)
 
+    @commands.max_concurrency(number=1, per=commands.BucketType.member)
+    @commands.command(aliases=["cumple", "cumpleaños"])
+    async def calendario(self, ctx):
+        # Create paginator
+        pages = []
+        sorted_list = sorted(self.bot.villagers, key=lambda v: v["birthday"])
+        for idx, villager in enumerate(sorted_list, start=1):
+            embed = villager_embed(villager)
+            embed.set_footer(text=f"Página: {idx} de {len(sorted_list)}")
+            pages.append(embed)
+        msg = f"Calendario de cumpleaños {self.bot.love}"
+        paginator = Paginator(ctx, msg, pages)
+        # Get closest birthday
+        fmt = "%Y-%m-%d %H:%M:%S"
+        closest = min(
+            sorted_list,
+            key=lambda x: abs(
+                datetime.strptime(x["birthday"], fmt).date() - datetime.today().date()
+            ),
+        )
+        paginator.curr = sorted_list.index(closest)
+        await paginator.run(600)
+
     @commands.is_owner()
     @commands.command()
     async def update(self, ctx):

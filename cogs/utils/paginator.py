@@ -25,7 +25,7 @@ class Paginator:
         self.curr = 0
 
     async def run(self, time: int):
-        self.message = await self.ctx.send(content=self.content, embed=self.pages[0])
+        self.message = await self.ctx.send(content=self.content, embed=self.pages[self.curr])
         self.ctx.bot.add_listener(self.on_reaction_add)
         for reaction in self.handlers:
             await self.message.add_reaction(reaction)
@@ -106,7 +106,7 @@ class TextPaginator(Paginator):
         super().__init__(ctx, None, pages)
 
     async def run(self, time: int):
-        self.message = await self.ctx.send(content=self.pages[0])
+        self.message = await self.ctx.send(content=self.pages[self.curr])
         self.ctx.bot.add_listener(self.on_reaction_add)
         for reaction in self.handlers:
             await self.message.add_reaction(reaction)
