@@ -47,6 +47,20 @@ species_es = {
     "Wolf": "Lobo",
 }
 
+horoscope_urls = {
+    "Aries": "https://i.imgur.com/2NddOYn.png",
+    "Tauro": "https://i.imgur.com/zJsVXfc.png",
+    "Géminis": "https://i.imgur.com/9V6QweE.png",
+    "Cáncer": "https://i.imgur.com/4o1zXD5.png",
+    "Leo": "https://i.imgur.com/wSq2STB.png",
+    "Virgo": "https://i.imgur.com/ZgKYaxW.png",
+    "Libra": "https://i.imgur.com/xuKEHbk.png",
+    "Escorpión": "https://i.imgur.com/QjoTZE1.png",
+    "Sagitario": "https://i.imgur.com/XULFQBb.png",
+    "Capricornio": "https://i.imgur.com/UcIgDPs.png",
+    "Acuario": "https://i.imgur.com/WZYYphy.png",
+    "Piscis": "https://i.imgur.com/Z0DhJPB.png",
+}
 
 villager_urls = [
     "https://nookipedia.com/wiki/Admiral",

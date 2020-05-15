@@ -3,7 +3,7 @@ from datetime import datetime
 
 from discord import Colour, Embed, Member, PartialEmoji
 
-from cogs.utils.acnh import personality_es, species_es
+from cogs.utils.acnh import horoscope_urls, personality_es, species_es
 
 bot_colour = 0x89D9BA
 
@@ -23,6 +23,23 @@ def jumbo_embed(emoji: PartialEmoji) -> Embed:
 def simple_embed(description: str) -> Embed:
     """ Returns a text only Embed  """
     return Embed(description=description, colour=bot_colour)
+
+
+def horoscope_embed(data: dict) -> Embed:
+    """ Returns a horoscope Embed  """
+    embed = Embed(
+        title=data["nombre"], description=f"_{data['fechaSigno']}_", colour=0xC18DD6
+    )
+    embed.add_field(name="Amor", value=data["amor"])
+    embed.add_field(name="Salud", value=data["salud"])
+    embed.add_field(name="Dinero", value=data["dinero"])
+    embed.add_field(name="Color", value=data["color"])
+    embed.add_field(name="Número", value=data["numero"])
+    embed.set_author(name="Celeste Sultana", icon_url="https://i.imgur.com/pdXckc0.png")
+    today = datetime.today().strftime("%#d de %B")
+    embed.set_footer(text=f"Horóscopo para el {today}.")
+    embed.set_thumbnail(url=horoscope_urls[data["nombre"]])
+    return embed
 
 
 def villager_embed(data: dict) -> Embed:
