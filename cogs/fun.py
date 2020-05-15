@@ -21,7 +21,7 @@ class Fun(commands.Cog, name="Diversión"):
             filename = url.split("https://random.dog/")[1]
             filesize = ctx.guild.filesize_limit if ctx.guild else 8388608
             if response["fileSizeBytes"] >= filesize:
-                await ctx.send(f"Este perrito esta muy pesado {self.bot.omg}\n{url}")
+                await ctx.send(f"Este perrito está muy pesado {self.bot.omg}\n{url}")
             else:
                 data = await get_bytes(url)
                 await ctx.send(file=discord.File(data, filename=filename))

@@ -17,7 +17,7 @@ import config
 async def run():
     locale.setlocale(locale.LC_TIME, "es_CL")
     logging.basicConfig(
-        filename="bot.log",
+        filename="cocoloca.log",
         filemode="w",
         level=logging.INFO,
         format="%(asctime)s:%(levelname)s:%(message)s",
@@ -50,7 +50,7 @@ class Bot(commands.Bot):
         self.omg = self.get_emoji(702729661997645834)
         self.love = self.get_emoji(702729661385539667)
         # Cargar informacion de aldeanos
-        with open("villagers.json", encoding="utf-8") as data:
+        with open("data/villagers.json", encoding="utf-8") as data:
             self.villagers = json.load(data)
         # Uptime
         if not hasattr(self, "uptime"):
