@@ -47,7 +47,7 @@ class Utilidad(commands.Cog):
         else:
             await channel.send(mensaje)
 
-    @commands.has_any_role("Isleñes", 700566190665367622, 702724565649850508)
+    @commands.has_any_role(700566190665367622, 702724565649850508, 715302998464790618)
     @commands.command()
     async def jumbo(self, ctx, emoji: discord.PartialEmoji):
         """ 

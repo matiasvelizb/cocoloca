@@ -27,7 +27,6 @@ class Fun(commands.Cog, name="Diversión"):
             data = await get_bytes(response[0]["url"])
             await ctx.send(file=discord.File(data, f"{response[0]['id']}.{choice}"))
 
-<<<<<<< HEAD
     @commands.bot_has_permissions(manage_messages=True, add_reactions=True)
     @commands.has_any_role(700566190665367622, 702724565649850508, 715302998464790618)
     @commands.command(aliases=["funar"])
@@ -40,7 +39,7 @@ class Fun(commands.Cog, name="Diversión"):
         reactions = ["🇫", "🇺", "🇳", "🇦", "🇩", "🇴"]
         for emoji in reactions:
             await message.add_reaction(emoji)
-=======
+
     @commands.cooldown(rate=1, per=3, type=commands.cooldowns.BucketType.member)
     @commands.command(aliases=["perrito", "woof"])
     async def dogpic(self, ctx):
@@ -77,7 +76,6 @@ class Fun(commands.Cog, name="Diversión"):
             filename = response[0].split("https://cdn.shibe.online/shibes/")[1]
             data = await get_bytes(response[0])
             await ctx.send(file=discord.File(data, filename=filename))
->>>>>>> 24b6fc91bb3605add070ed576cf133e6d9a96be5
 
 
 def setup(bot):
